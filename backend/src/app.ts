@@ -1,9 +1,9 @@
-
 import express, { Response } from "express"
 import dotenv from "dotenv"
 import morgan from "morgan"
 import cors from "cors"
 import path from "path"
+import "./db/mongodb"
 // import rutas
 
 let app = express()
