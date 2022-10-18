@@ -1,10 +1,11 @@
-import express, { Response } from "express"
+import express, { Request, Response } from "express"
 import dotenv from "dotenv"
 import morgan from "morgan"
 import cors from "cors"
 import path from "path"
 import "./db/mongodb"
 // import rutas
+import platoRoute from "./v1/routes/plato"
 
 let app = express()
 let rutaPublic:string=path.resolve(__dirname,"../public")
@@ -13,7 +14,7 @@ let {PORT} = process.env
 // set
 app.set("PORT",PORT || 5500)
 // get
-app.get("/help",(res:Response) =>{
+app.get("/help",(req:Request,res:Response) =>{
     res.send("servidor corriendo con exito")
 })
 // middlewar
@@ -24,6 +25,6 @@ app.use(cors())
 
 // rooters
 // v1
-
+app.use("/plato",platoRoute)
 
 export default app
