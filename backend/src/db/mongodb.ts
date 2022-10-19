@@ -29,6 +29,7 @@ else{
 
 let conexionString:string = `mongodb://${MONGODB_ADMIN_USER}:${MONGODB_ADMIN_PASS}@${HOST_DB}:${MONGODB_PORT}/${DB}?authSource=admin`
 
+
 console.log("uri mongodb => ",conexionString)
 
 mongoose.connect(conexionString)

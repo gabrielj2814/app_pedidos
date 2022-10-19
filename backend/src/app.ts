@@ -25,6 +25,6 @@ app.use(cors())
 
 // rooters
 // v1
-app.use("/plato",platoRoute)
+app.use("/api/v1/plato",platoRoute)
 
 export default app

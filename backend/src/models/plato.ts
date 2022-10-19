@@ -8,7 +8,7 @@ let schemaPlato:Schema = new Schema({
     descriptcion:String
 })
 
-let plato =model("Plato",schemaPlato)
+let Plato =model("P",schemaPlato)
 
 
-export default plato
+export default Plato
