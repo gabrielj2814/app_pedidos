@@ -8,6 +8,8 @@ let schemaPlato:Schema = new Schema({
     descriptcion:String
 })
 
+schemaPlato.index({nombre: "text"})
+
 let Plato =model("P",schemaPlato)
 
 

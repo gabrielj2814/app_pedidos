@@ -10,14 +10,18 @@ let PlatoControlador ={
         let {...plato} = body
         let platoNuevo= new Plato(plato)
         let platoCreado = await platoNuevo.save()
-        // let platos =await Plato.find()
-        // console.log("listar datos => ",platos)
         res.status(200).json(platoCreado)
     },
     
-    consultarTodo:async (req:Request,res:Response) => {
-        let platos = await Plato.find()
-        res.status(200).json(platos)
+    consultarTodo:(req:Request,res:Response) => {
+        Plato.find({})
+        .then(platos => {
+            res.status(200).json(platos)
+        })
+        .catch(error => {
+            console.log("error en el consultar todo => ",error)
+            res.status(502).json({msj:"error"})
+        })
     },
     
     consultarPorId:(req:Request,res:Response) => {
@@ -32,33 +36,75 @@ let PlatoControlador ={
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            res.status(503).json(err)
         })
     },
 
     consultarPorNombre:(req:Request,res:Response) => {
         let {nombre} = req.params
         console.log(nombre)
-        // TODO: INVESTIGAR COMO HACER BUSQUEDA POR TEXTO
-        // Plato.ensureIndexes({nombre:"text"})
-        // Plato.find({
-        //     $text:{
-        //         $search: '\"plato\"',
-        //         $caseSensitive: false,
-        //     }
-        // })
-        // .then(plato => {
-        //     if(plato){
-        //         res.status(200).json(plato)
-        //     }
-        //     else{
-        //         res.status(404).json({msj:"no encontrado"})
-        //     }
-        // })
-        // .catch(err => {
-        //     res.status(500).json(err)
-        // })
-    }
+        Plato.find({$text:{$search:`/${nombre}/`}})
+        .then(platos => {
+            res.status(200).json(platos)
+        })
+        .catch(error => {
+            res.status(503).json(error)
+        })
+    },
+    
+    actualizar: async (req:Request,res:Response) => {
+        let {...platoUpdate} = req.body
+        let {id} = req.params
+        Plato.updateOne({_id:id},platoUpdate)
+        .then(  plato => {
+            if(plato){
+                res.status(200).json(plato)
+            }
+            else{
+                res.status(404).json({msj:"no encontrado"})
+            }
+        })
+        .catch(err => {
+            res.status(503).json(err)
+        })
+    },
+
+    eliminar: (req:Request,res:Response) => {
+        let {id} = req.params
+        Plato.deleteOne({_id:id})
+        .then(  respuesta => {
+            if(respuesta){
+                res.status(200).json(respuesta)
+            }
+            else{
+                res.status(404).json({msj:"no encontrado"})
+            }
+        })
+        .catch(err => {
+            res.status(503).json(err)
+        })
+    },
+
+    // totalDocumentos:async (req:Request,res:Response) => {
+    //     Plato.count()
+    //     .then(  respuesta => {
+    //         console.log(respuesta)
+    //         res.status(200).json({total:respuesta})
+    //     })
+    //     .catch(err => {
+    //         res.status(503).json(err)
+    //     })
+    // },
+
+    // eliminarTodo:async  (req:Request,res:Response) => {
+    //     Plato.deleteMany({})
+    //     .then(  respuesta => {
+    //         res.status(200).json(respuesta)
+    //     })
+    //     .catch(err => {
+    //         res.status(503).json(err)
+    //     })
+    // }
 }
 
 export default PlatoControlador

@@ -1,9 +1,9 @@
+import "./db/mongodb"
 import express, { Request, Response } from "express"
 import dotenv from "dotenv"
 import morgan from "morgan"
 import cors from "cors"
 import path from "path"
-import "./db/mongodb"
 // import rutas
 import platoRoute from "./v1/routes/plato"
 
