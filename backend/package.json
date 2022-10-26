@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=start node ./dist/index.js",
-    "test": "cross-env NODE_ENV=test jest ./dist/test",
-    "test:w": "cross-env NODE_ENV=test jest ./dist/test --watch",
     "dev": "cross-env NODE_ENV=dev node ./dist/index.js",
     "dev:nm": "cross-env NODE_ENV=dev nodemon ./dist/index.js",
     "ts": "tsc",
-    "ts:w": "tsc -w "
+    "ts:w": "tsc -w ",
+    "test": "cross-env NODE_ENV=test PORT=0 jest ./dist/test",
+    "test:w": "cross-env NODE_ENV=test PORT=0 jest ./dist/test --watch --detectOpenHandles"
   },
   "author": "anicode",
   "license": "MIT",

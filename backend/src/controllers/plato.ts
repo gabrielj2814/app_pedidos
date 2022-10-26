@@ -14,13 +14,28 @@ let PlatoControlador ={
     },
     
     consultarTodo:(req:Request,res:Response) => {
+        let respuestaApi:respuesta ={
+            codigo:0,
+            tipo_mensaje:"string",
+            mensaje:"string",
+            datos:[],
+            detalle_respuesta:{}
+        } 
         Plato.find({})
         .then(platos => {
-            res.status(200).json(platos)
+            // console.log("aqui =>",platos)
+            respuestaApi.codigo=200
+            respuestaApi.tipo_mensaje="seccess"
+            respuestaApi.mensaje="consulta completada"
+            respuestaApi.datos=platos
+            res.status(200).json(respuestaApi)
         })
         .catch(error => {
-            console.log("error en el consultar todo => ",error)
-            res.status(502).json({msj:"error"})
+            respuestaApi.codigo=400
+            respuestaApi.tipo_mensaje="danger"
+            respuestaApi.mensaje="no hay platos registros en la base de datos"
+            respuestaApi.detalle_respuesta=error
+            res.status(400).json(respuestaApi)
         })
     },
     
