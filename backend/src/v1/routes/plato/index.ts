@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import PlatoControlador from "../../../controllers/plato";
+import { middleware } from "../../../middlewares/validation/platoMiddleware";
 
 let route = Router()
 
@@ -7,7 +8,7 @@ route.get("/",(req:Request,res:Response) => {
     res.status(200).send(`url => ${req.baseUrl}`)
 })
 
-route.post("/crear",PlatoControlador.crear)
+route.post("/crear",middleware.validarCamposPlato,PlatoControlador.crear)
 route.get("/consultar/todo",PlatoControlador.consultarTodo)
 route.get("/consultar/id/:idPlato",PlatoControlador.consultarPorId)
 route.get("/consultar/nombre-plato/:nombre",PlatoControlador.consultarPorNombre)

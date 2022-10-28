@@ -7,7 +7,8 @@ let PlatoControlador ={
 
     crear: async (req:Request,res:Response) => {
         let {body} = req
-        let {...plato} = body
+        let {name_tmp_imagen,...plato} = body
+        console.log("datos => ",plato)
         let platoNuevo= new Plato(plato)
         let platoCreado = await platoNuevo.save()
         res.status(200).json(platoCreado)

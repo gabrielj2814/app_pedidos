@@ -20,19 +20,32 @@ describe("test del modulo plato",() => {
             "nombre":"plato nuevo x",
             "url_imagen":"imagen plato nuevo",
             "estado":"true",
-            "precio":"10",
-            "descriptcion":"descripcion platoooo"
+            "precio":10,
+            "descriptcion":"descripcion platoooo",
+            name_tmp_imagen:"nombre tempral"
         }
         let respuesta = await api.post("/api/v1/plato/crear")
         .send(plato)
         .expect(200)
     })
     
-    test.skip("registrar plato sin enviar datos", async () => {
+    test("registrar plato sin enviar datos", async () => {
+        let plato= {}
+        let respuesta = await api.post("/api/v1/plato/crear")
+        .send(plato)
+        .expect(400)
+        let {body} = respuesta
+    })
+
+    test.skip("enviando tipos de datos incorrectos 'error'", async () => {
 
     })
 
-    test.skip("registrar plato enviando datos invalidaos", async () => {
+    test.skip("registrar plato enviando datos invalidos 'error'", async () => {
+
+    })
+
+    test.skip("registrar plato enviando datos vacios con propiedades definidas 'error'", async () => {
 
     })
 
@@ -40,10 +53,7 @@ describe("test del modulo plato",() => {
         let respuesta = await api.get("/api/v1/plato/consultar/todo")
         .expect(200)
         let {body} = respuesta
-        console.log(body.datos)
         expect(body.datos.length).toBe(5)
-        // console.log(body.datos[4]._id==="313131323232333333343434")
-        // expect(body.datos[4]._id).toEqual("313131323232333333343434")
 
     })
 
