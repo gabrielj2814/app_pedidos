@@ -24,7 +24,6 @@ let PlatoControlador ={
         } 
         Plato.find({})
         .then(platos => {
-            // console.log("aqui =>",platos)
             respuestaApi.codigo=200
             respuestaApi.tipo_mensaje="seccess"
             respuestaApi.mensaje="consulta completada"
@@ -41,30 +40,73 @@ let PlatoControlador ={
     },
     
     consultarPorId:(req:Request,res:Response) => {
+        let respuestaApi:respuesta ={
+            codigo:0,
+            tipo_mensaje:"string",
+            mensaje:"string",
+            datos:[],
+            detalle_respuesta:{}
+        } 
         let {idPlato} = req.params
         Plato.findById(idPlato)
         .then(plato => {
             if(plato){
-                res.status(200).json(plato)
+                respuestaApi.codigo=200
+                respuestaApi.tipo_mensaje="success"
+                respuestaApi.mensaje="consulta completada"
+                respuestaApi.datos=[plato]
+                res.status(200).json(respuestaApi)
             }
             else{
-                res.status(404).json({msj:"no encontrado"})
+                respuestaApi.codigo=404
+                respuestaApi.tipo_mensaje="danger"
+                respuestaApi.mensaje="no se encontro ningun plato con este id => "+idPlato
+                res.status(404).json(respuestaApi)
             }
         })
-        .catch(err => {
-            res.status(503).json(err)
+        .catch(error => {
+            respuestaApi.codigo=500
+            respuestaApi.tipo_mensaje="danger"
+            respuestaApi.mensaje="ha ocurrido un error inesperado"
+            respuestaApi.detalle_respuesta=error
+            res.status(500).json(respuestaApi)
+            
         })
     },
 
     consultarPorNombre:(req:Request,res:Response) => {
+        let respuestaApi:respuesta ={
+            codigo:0,
+            tipo_mensaje:"string",
+            mensaje:"string",
+            datos:[],
+            detalle_respuesta:{}
+        } 
         let {nombre} = req.params
-        console.log(nombre)
-        Plato.find({$text:{$search:`/${nombre}/`}})
-        .then(platos => {
-            res.status(200).json(platos)
+        Plato.find({$text:{$search:`\"${nombre}\"`}})
+        .then(plato => {
+            console.log(plato)
+            if(plato){
+                respuestaApi.codigo=200
+                respuestaApi.tipo_mensaje="success"
+                respuestaApi.mensaje="consulta completada"
+                respuestaApi.datos=plato
+                res.status(200).json(respuestaApi)
+            }
+            else{
+                respuestaApi.codigo=404
+                respuestaApi.tipo_mensaje="danger"
+                respuestaApi.mensaje="no se encontro ningun plato con este nombre => "+nombre
+                res.status(404).json(respuestaApi)
+            }
         })
         .catch(error => {
-            res.status(503).json(error)
+            respuestaApi.codigo=500
+            respuestaApi.tipo_mensaje="danger"
+            respuestaApi.mensaje="ha ocurrido un error inesperado"
+            respuestaApi.detalle_respuesta=error
+            res.status(500).json(respuestaApi)
+            
         })
     },
     

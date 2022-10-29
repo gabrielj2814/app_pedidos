@@ -9,15 +9,54 @@ beforeAll(async () => {
 
 describe("test del modulo plato",() => {
 
-    test.skip("subida de archivo temporal ", async () => {
+    test("consultar todos los platos me debe traer 4 'ok 200' ", async () => {
+        let respuesta = await api.get("/api/v1/plato/consultar/todo")
+        .expect(200)
+        let {body} = respuesta
+        expect(body.datos.length).toBe(4)
+    })
+
+    test("consultar plato por nombre por patron me debe de traer uno 'ok 200' ", async () => {
+        let nombre = "plato a"
+        let respuesta = await api.get("/api/v1/plato/consultar/nombre-plato/"+nombre)
+        .expect(200)
+        let {body} = respuesta
+        expect(body.datos.length).toBe(1)
+    })
+
+    test("consultar plato por nombre por patron que no existe no debe traer nada 'error 404' ", async () => {
+        let nombre = "plato b"
+        let respuesta = await api.get("/api/v1/plato/consultar/nombre-plato/"+nombre)
+        .expect(404)
+        let {body} = respuesta
+        expect(body.datos.length).toBe(0)
+    })
+
+    test("consultar plato por nombre por patron me debe de traer cuatro 'ok 200' ", async () => {
+        let nombre = "plato"
+        let respuesta = await api.get("/api/v1/plato/consultar/nombre-plato/"+nombre)
+        .expect(200)
+        let {body} = respuesta
+        expect(body.datos.length).toBe(4)
+    })
+
+    test("consultar plato por id que no existe 'error 404' ", async () => {
+        let id = "313131323232333333343333"
+        let respuesta = await api.get("/api/v1/plato/consultar/id/"+id)
+        .expect(404)
+        let {body} = respuesta
+        expect(body.datos.length).toBe(0)
+    })
+
+    test.skip("consultar plato por id pero pasando un dato invalido 'error' ", async () => {
 
     })
 
-    test("registrar plato con todos los datos", async () => {
+    test("registrar plato con todos los datos 'ok 200'", async () => {
         let idNuevo= new mongoose.Types.ObjectId("313131323232333333343434")
         let plato= {
             _id:idNuevo,
-            "nombre":"plato nuevo x",
+            "nombre":"pasta",
             "url_imagen":"imagen plato nuevo",
             "estado":"true",
             "precio":10,
@@ -28,13 +67,25 @@ describe("test del modulo plato",() => {
         .send(plato)
         .expect(200)
     })
+
+    test("consultar plato por id me debe traer uno 'ok 200' ", async () => {
+        let id = "313131323232333333343434"
+        let respuesta = await api.get("/api/v1/plato/consultar/id/"+id)
+        .expect(200)
+        let {body} = respuesta
+        expect(body.datos.length).toBe(1)
+    })
     
-    test("registrar plato sin enviar datos", async () => {
+    test("registrar plato sin enviar datos 'error 400'", async () => {
         let plato= {}
         let respuesta = await api.post("/api/v1/plato/crear")
         .send(plato)
         .expect(400)
         let {body} = respuesta
+    })
+
+    test.skip("subida de archivo temporal ", async () => {
+
     })
 
     test.skip("enviando tipos de datos incorrectos 'error'", async () => {
@@ -46,34 +97,6 @@ describe("test del modulo plato",() => {
     })
 
     test.skip("registrar plato enviando datos vacios con propiedades definidas 'error'", async () => {
-
-    })
-
-    test("consultar todos los platos => '5' ", async () => {
-        let respuesta = await api.get("/api/v1/plato/consultar/todo")
-        .expect(200)
-        let {body} = respuesta
-        expect(body.datos.length).toBe(5)
-
-    })
-
-    test.skip("consultar plato por nombre por patron '1' ", async () => {
-
-    })
-
-    test.skip("consultar plato por nombre por patron que no existe 'no trae nada' ", async () => {
-
-    })
-
-    test.skip("consultar plato por nombre por patron '3' ", async () => {
-
-    })
-
-    test.skip("consultar plato por id '1' ", async () => {
-
-    })
-
-    test.skip("consultar plato por id que no existe 'no trae nada' ", async () => {
 
     })
 
