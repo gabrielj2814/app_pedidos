@@ -21,14 +21,16 @@ describe("test del modulo plato",() => {
         let respuesta = await api.get("/api/v1/plato/consultar/nombre-plato/"+nombre)
         .expect(200)
         let {body} = respuesta
+        // console.log("tiene que haber un solo un elemento => ",body)
         expect(body.datos.length).toBe(1)
     })
 
     test("consultar plato por nombre por patron que no existe no debe traer nada 'error 404' ", async () => {
-        let nombre = "plato b"
+        let nombre = "plato ddd"
         let respuesta = await api.get("/api/v1/plato/consultar/nombre-plato/"+nombre)
         .expect(404)
         let {body} = respuesta
+        // console.log("tiene que estar el array vacio => ",body)
         expect(body.datos.length).toBe(0)
     })
 

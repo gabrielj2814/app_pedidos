@@ -8,7 +8,7 @@ let PlatoControlador ={
     crear: async (req:Request,res:Response) => {
         let {body} = req
         let {name_tmp_imagen,...plato} = body
-        console.log("datos => ",plato)
+        // console.log("datos => ",plato)
         let platoNuevo= new Plato(plato)
         let platoCreado = await platoNuevo.save()
         res.status(200).json(platoCreado)
@@ -83,10 +83,10 @@ let PlatoControlador ={
             detalle_respuesta:{}
         } 
         let {nombre} = req.params
-        Plato.find({$text:{$search:`\"${nombre}\"`}})
+        // console.log("buscando por  => ",'\"'+nombre+'\"')
+        Plato.find({$text:{$search:'\"'+nombre+'\"'}})
         .then(plato => {
-            console.log(plato)
-            if(plato){
+            if(plato.length>0){
                 respuestaApi.codigo=200
                 respuestaApi.tipo_mensaje="success"
                 respuestaApi.mensaje="consulta completada"
